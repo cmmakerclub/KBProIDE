@@ -61,12 +61,6 @@
                             </v-flex>
                         </v-container>
                     </v-card-text>
-<!--                    <v-card-actions style="display: flex">-->
-<!--                        <div style="display: flex; justify-content: end; margin-top: 15px">-->
-<!--                            <v-btn class="btn-success" flat @click="cameraDialog = false">Save</v-btn>-->
-<!--                            <v-btn class="btn-danger" flat @click="cameraDialog = false">Close</v-btn>-->
-<!--                        </div>-->
-<!--                    </v-card-actions>-->
                 </v-card>
             </v-dialog>
 
