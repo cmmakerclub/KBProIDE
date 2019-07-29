@@ -44,24 +44,29 @@
                 <v-card>
                     <v-card-title>
                         <!--                        <span class="headline">{{variableMessage}}</span>-->
-                        <span class="headline">Getting Image from the camera.</span>
+                        <span class="headline font-bold">Getting Image from the camera.</span>
                     </v-card-title>
-                    <v-card-text>
-                        <v-container grid-list-md>
+                    <v-card-text style="padding-top: 0">
+                        <v-container grid-list-md style="padding-top: 0">
                             <v-flex xs12>
-                                <video ref="video" id="video" width="640" height="480" autoplay></video>
-                                <button id="snap" v-on:click="capture()">Snap Photo</button>
-                                <!--                                <canvas ref="canvas" id="canvas" width="640" height="480"></canvas>-->
-                                <!--                                <img v-bind:src="c" height="50"/>-->
+                                <div style="display: flex; justify-content: center">
+                                    <video ref="video" id="video" width="640" height="480" autoplay></video>
+                                </div>
+                                <div style="display: flex; justify-content: center; margin-top: 15px">
+                                    <v-btn id="snap" class="btn-primary" @click="capture()">Snap Photo</v-btn>
+                                    <br>
+                                    <v-btn class="btn-success" flat @click="cameraDialog = false">Save</v-btn>
+                                    <v-btn class="btn-danger" flat @click="cameraDialog = false">Close</v-btn>
+                                </div>
                             </v-flex>
                         </v-container>
                     </v-card-text>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="blue darken-1" @click="cameraDialog = false">Save
-                            <v-btn color="blue darken-1" flat @click="cameraDialog = false">Close</v-btn>
-                        </v-btn>
-                    </v-card-actions>
+<!--                    <v-card-actions style="display: flex">-->
+<!--                        <div style="display: flex; justify-content: end; margin-top: 15px">-->
+<!--                            <v-btn class="btn-success" flat @click="cameraDialog = false">Save</v-btn>-->
+<!--                            <v-btn class="btn-danger" flat @click="cameraDialog = false">Close</v-btn>-->
+<!--                        </div>-->
+<!--                    </v-card-actions>-->
                 </v-card>
             </v-dialog>
 
@@ -640,7 +645,9 @@
   };
 </script>
 
-<style>
+<style lang="stylus" scoped>
+    @import "../../../theme/component-design.styl"
+
     .editor {
         width: 100%;
         height: 100%;
