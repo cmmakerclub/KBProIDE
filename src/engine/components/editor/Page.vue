@@ -51,10 +51,17 @@
                             <v-flex xs12>
                                 <div style="display: flex; justify-content: center">
                                     <video ref="video" id="video" width="640" height="480" autoplay></video>
+                                    <canvas ref="canvas" style="display:none;" width="640" height="480"></canvas>
                                 </div>
                                 <div style="display: flex; justify-content: center; margin-top: 15px">
-                                    <v-btn id="snap" class="btn-primary" @click="snapCameraDialog">Snap Photo</v-btn>
-                                    <br>
+                                    <v-btn id="snap" class="btn-primary" @click="snapCameraDialog">
+                                        <i class="fa fa-camera"></i>&ensp;
+                                        Snapshot
+                                    </v-btn>
+                                    <v-btn id="snap" class="btn-primary" @click="refreshCameraDialog">
+                                        <i class="fa fa-refresh"></i>&ensp;
+                                        Refresh
+                                    </v-btn>
                                     <v-btn class="btn-success" flat @click="saveCameraDialog">Save</v-btn>
                                     <v-btn class="btn-danger" flat @click="closeCameraDialog">Close</v-btn>
                                 </div>
@@ -473,7 +480,19 @@
     },
     methods: {
       snapCameraDialog() {
+        this.video = this.$refs.video;
+        this.canvas = this.$refs.canvas;
+        this.canvas.getContext("2d").drawImage(this.video, 0, 0, 640, 480);
+        this.captures.push(this.canvas.toDataURL());
+        this.video.style = 'display: none';
+        this.canvas.style = 'display: block';
+      },
 
+      refreshCameraDialog() {
+        this.video = this.$refs.video;
+        this.canvas = this.$refs.canvas;
+        this.video.style = 'display: block';
+        this.canvas.style = 'display: none';
       },
 
       saveCameraDialog() {
@@ -481,8 +500,9 @@
       },
 
       closeCameraDialog() {
-        window.streamCamera.getTracks()[0].stop()
-        this.cameraDialog = false
+        window.streamCamera.getTracks()[0].stop();
+        this.refreshCameraDialog();
+        this.cameraDialog = false;
       },
       getCm() {
         try {
