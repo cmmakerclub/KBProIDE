@@ -53,10 +53,10 @@
                                     <video ref="video" id="video" width="640" height="480" autoplay></video>
                                 </div>
                                 <div style="display: flex; justify-content: center; margin-top: 15px">
-                                    <v-btn id="snap" class="btn-primary" @click="capture()">Snap Photo</v-btn>
+                                    <v-btn id="snap" class="btn-primary" @click="snapCameraDialog">Snap Photo</v-btn>
                                     <br>
-                                    <v-btn class="btn-success" flat @click="cameraDialog = false">Save</v-btn>
-                                    <v-btn class="btn-danger" flat @click="cameraDialog = false">Close</v-btn>
+                                    <v-btn class="btn-success" flat @click="saveCameraDialog">Save</v-btn>
+                                    <v-btn class="btn-danger" flat @click="closeCameraDialog">Close</v-btn>
                                 </div>
                             </v-flex>
                         </v-container>
@@ -427,16 +427,14 @@
         this.video = this.$refs.video;
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
           navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+            window.streamCamera = stream
             this.video.src = window.URL.createObjectURL(stream);
+            //window.streamCamera =
             this.video.play();
           });
         }
         this.cameraDialog = true;
-        //myself.musicDialog = true;
-        console.log("camera called.", this.ttsDialog);
-        //this.canvas = this.$refs.canvas;
-        //var context = this.canvas.getContext("2d").drawImage(this.video, 0, 0, 640, 480);
-        //this.captures.push(canvas.toDataURL("image/png"));
+        //console.log("camera called.", this.ttsDialog);
       };
 
       console.log("blocly mounted");
@@ -474,6 +472,18 @@
       //this.addError();
     },
     methods: {
+      snapCameraDialog() {
+
+      },
+
+      saveCameraDialog() {
+
+      },
+
+      closeCameraDialog() {
+        window.streamCamera.getTracks()[0].stop()
+        this.cameraDialog = false
+      },
       getCm() {
         try {
           if ("cm" in myself.$refs) {
