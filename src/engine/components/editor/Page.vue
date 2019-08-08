@@ -300,7 +300,8 @@
         cameraDialog: false,
         video: {},
         canvas: {},
-        captures: []
+        capture: null,
+        snapshotBuffer: null
       };
     },
     created() {
@@ -432,6 +433,8 @@
       Blockly.camera = (cb) => {
         // Camera API
         this.video = this.$refs.video;
+        this.capture = cb;
+
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
           navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
             window.streamCamera = stream
@@ -441,7 +444,6 @@
           });
         }
         this.cameraDialog = true;
-        //console.log("camera called.", this.ttsDialog);
       };
 
       console.log("blocly mounted");
@@ -483,7 +485,7 @@
         this.video = this.$refs.video;
         this.canvas = this.$refs.canvas;
         this.canvas.getContext("2d").drawImage(this.video, 0, 0, 640, 480);
-        this.captures.push(this.canvas.toDataURL());
+        this.snapshotBuffer = this.canvas.toDataURL();
         this.video.style = 'display: none';
         this.canvas.style = 'display: block';
       },
@@ -491,15 +493,19 @@
       refreshCameraDialog() {
         this.video = this.$refs.video;
         this.canvas = this.$refs.canvas;
+        this.snapshotBuffer = null;
         this.video.style = 'display: block';
         this.canvas.style = 'display: none';
       },
 
       saveCameraDialog() {
-
+        this.capture(this.snapshotBuffer);
+        this.closeCameraDialog();
       },
 
       closeCameraDialog() {
+        this.snapshotBuffer = null;
+        this.capture = null;
         window.streamCamera.getTracks()[0].stop();
         this.refreshCameraDialog();
         this.cameraDialog = false;
